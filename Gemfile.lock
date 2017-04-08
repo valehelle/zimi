@@ -57,11 +57,15 @@ GEM
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
+    devise_token_auth (0.1.40)
+      devise (> 3.5.2, <= 4.2)
+      rails (< 6)
     erubis (2.7.0)
     execjs (2.7.0)
     ffi (1.9.18)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    hashie (3.5.5)
     i18n (0.8.1)
     jbuilder (2.6.3)
       activesupport (>= 3.0.0, < 5.2)
@@ -88,6 +92,9 @@ GEM
     nio4r (2.0.0)
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
+    omniauth (1.6.1)
+      hashie (>= 3.4.6, < 3.6.0)
+      rack (>= 1.6.2, < 3)
     orm_adapter (0.5.0)
     puma (3.8.2)
     rack (2.0.1)
@@ -169,10 +176,12 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.2)
   devise
+  devise_token_auth
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
   mysql2
+  omniauth (~> 1.6, >= 1.6.1)
   puma (~> 3.0)
   rails (~> 5.0.2)
   sass-rails (~> 5.0)
