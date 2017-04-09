@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: 1
+  post: 1
+  expiry: 2017-04-09 08:18:11
+
+two:
+  user: 1
+  post: 1
+  expiry: 2017-04-09 08:18:11
