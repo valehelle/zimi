@@ -3,12 +3,9 @@ class UserController < ApplicationController
   end
 
   def create
-    @user = User.new(:email => params[:email], :password => params[:password], :password_confirmation => params[:password_confirmation])
-    if @user.save
-      render :json => {:success => "True", :user => @user}
-    else
-      render :json => { :success => "False",:errors => @user.errors.full_messages }
-    end
+    @user = User.find_by_email("hazmii@gmail.com")
+    puts "helo"
+    puts @user.friends.first.email
   end
 
 end

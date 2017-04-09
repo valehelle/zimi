@@ -27,8 +27,11 @@ gem 'devise'
 #Devise token auth
 gem 'devise_token_auth'
 
-#omniauth for devise_token_auth
+#Omniauth for devise_token_auth
 gem 'omniauth', '~> 1.6', '>= 1.6.1'
+
+#Friend relationship
+gem 'has_friendship'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
