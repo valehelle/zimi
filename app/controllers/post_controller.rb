@@ -16,18 +16,34 @@ class PostController < ApplicationController
 
             @userpost = current_user.user_post.new(post_id: @post.id,expiry: expiry)
             if @userpost.save
-                puts "DONE"
+                render :json => @post.to_json(:only => [:id, :text],
+                                              :include => {
+                                                    :user => { 
+                                                        :only => [
+                                                            :email, :nickname
+                                                            ]
+                                                        }
+                                              })
             end
         end
     end
+
     def index
-        @posts = current_user.user_post
-        puts @posts.first.post.user.email
-        render :json => @posts.to_json(:include => {:post => {
+        max_post = 20
+        if params[:since_id].present?
+            #Get the latest post
+            @posts = current_user.user_post.where("id >= ?", params[:since_id]).limit(max_post).reverse_order
+        else
+            #Get the previous post
+            @posts = current_user.user_post.where("id <= ?", params[:max_id]).limit(max_post).reverse_order
+        end
+        render :json => @posts.to_json(:only => [:id],
+                                       :include => {:post => {
+                                                        :only => [:id, :text],
                                                         :include => {
                                                             :user => { 
                                                                 :only => [
-                                                                    :email , :nickname
+                                                                    :email, :nickname
                                                                     ]
                                                                 }
                                                             }
