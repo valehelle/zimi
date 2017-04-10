@@ -9,7 +9,7 @@ class RelationshipController < ApplicationController
     def decline_request
         current_user.decline_request(params[:email])
     end
-    def friend_removed
+    def removed_friend
         @removed_friends = current_user.remove_friend(params[:email])
     end
     def requested_friends

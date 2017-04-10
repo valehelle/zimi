@@ -1,7 +1,7 @@
 class PostController < ApplicationController
     before_action :authenticate_user!
     def create
-        @post = Post.new(text: params[:text])
+        @post = Post.new(text: params[:text],post_type: params[:type])
         @post.author = current_user.id
         if @post.save
             expiry  = (@post.created_at + 6.hours).to_datetime
@@ -16,14 +16,16 @@ class PostController < ApplicationController
 
             @userpost = current_user.user_post.new(post_id: @post.id,expiry: expiry)
             if @userpost.save
-                render :json => @post.to_json(:only => [:id, :text],
-                                              :include => {
-                                                    :user => { 
-                                                        :only => [
-                                                            :email, :nickname
-                                                            ]
-                                                        }
-                                              })
+                render :json => { :status => "success",
+                                  :post => @post.as_json(:only => [:id, :text, :post_type],
+                                                              :include => {
+                                                                      :user => { 
+                                                                          :only => [
+                                                                              :email, :nickname
+                                                                              ]
+                                                                          }
+                                                              })
+                }
             end
         end
     end
@@ -32,14 +34,14 @@ class PostController < ApplicationController
         max_post = 20
         if params[:since_id].present?
             #Get the latest post
-            @posts = current_user.user_post.where("id >= ?", params[:since_id]).limit(max_post).reverse_order
+            @posts = current_user.user_post.where("id >= ? AND ? <= expiry ", params[:since_id],DateTime.now).limit(max_post).reverse_order
         else
             #Get the previous post
-            @posts = current_user.user_post.where("id <= ?", params[:max_id]).limit(max_post).reverse_order
+            @posts = current_user.user_post.where("id <= ? AND ? <= expiry ", params[:max_id],DateTime.now).limit(max_post).reverse_order
         end
         render :json => @posts.to_json(:only => [:id],
                                        :include => {:post => {
-                                                        :only => [:id, :text],
+                                                        :only => [:id, :text, :post_type],
                                                         :include => {
                                                             :user => { 
                                                                 :only => [
